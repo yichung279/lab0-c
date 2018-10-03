@@ -95,7 +95,27 @@ bool q_insert_tail(queue_t *q, char *s)
 {
     /* You need to write the complete code for this function */
     /* Remember: It should operate in O(1) time */
-    return false;
+    if (q == NULL)
+        return false;
+
+    char *str = strdup(s);
+    if (str == NULL)
+        return false;
+
+    list_ele_t *newt = malloc(sizeof(list_ele_t));
+    if (newt == NULL)
+        return false;
+
+    newt->next = NULL;
+    newt->value = str;
+
+    if (q->tail)
+        q->tail->next = newt;
+
+    q->head = q->head ? newt : q->head;
+    q->tail = newt;
+    q->size++;
+    return true;
 }
 
 /*
@@ -109,8 +129,6 @@ bool q_insert_tail(queue_t *q, char *s)
 bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 {
     /* You need to fix up this code. */
-    q->head = q->head->next;
-    return true;
 }
 
 /*
