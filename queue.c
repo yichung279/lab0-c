@@ -45,7 +45,7 @@ void q_free(queue_t *q)
     /* Free queue structure */
     list_ele_t *current = q->head;
     list_ele_t *tmp;
-    while (current != NULL) {
+    while (current) {
         tmp = current;
         current = current->next;
         free(tmp);
@@ -112,7 +112,7 @@ bool q_insert_tail(queue_t *q, char *s)
     if (q->tail)
         q->tail->next = newt;
 
-    q->head = q->head ? newt : q->head;
+    q->head = q->head ? q->head : newt;
     q->tail = newt;
     q->size++;
     return true;
@@ -167,4 +167,20 @@ int q_size(queue_t *q)
 void q_reverse(queue_t *q)
 {
     /* You need to write the code for this function */
+    if (q_size(q) <= 1)
+        return;
+
+    list_ele_t *last = NULL;
+    list_ele_t *next = q->head;
+    list_ele_t *tmp;
+    while (next) {
+        tmp = next->next;
+        next->next = last;
+        last = next;
+        next = tmp;
+    }
+
+    tmp = q->head;
+    q->head = q->tail;
+    q->tail = tmp;
 }
